@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Valentine's Day ❤️</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, serif;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef, #ffecd2);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            animation: fadeInDown 1s ease-out;
+            margin-bottom: 40px;
+        }
+
+        h3 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            color: #d63447;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            color: #c0395e;
+            font-style: italic;
+        }
+
+        .main-heart {
+            text-align: center;
+            margin: 40px 0;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .big-heart {
+            font-size: clamp(80px, 15vw, 150px);
+            color: #ff6b9d;
+            display: inline-block;
+            animation: heartbeat 1.5s infinite;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 10px 20px rgba(255, 107, 157, 0.4));
+        }
+
+        .big-heart:hover {
+            transform: scale(1.2);
+            filter: drop-shadow(0 15px 30px rgba(255, 107, 157, 0.6));
+        }
+
+        .music-btn {
+            margin: 20px 0;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 25px;
+            background: #ff6b9d;
+            color: white;
+            cursor: pointer;
+            animation: fadeIn 2s ease-out;
+        }
+
+        .message-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            line-height: 1.8;
+            text-align: left;
+            animation: fadeUp 1.5s ease-out;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #c0395e;
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            animation: fadeUp 1.5s ease-out;
+        }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            text-align: center;
+            max-width: 90%;
+            transition: transform 0.3s ease;
+        }
+
+        .popup.active {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .popup h2 {
+            color: #d63447;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            margin-bottom: 20px;
+        }
+
+        .popup p {
+            color: #333;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            margin-bottom: 20px;
+        }
+
+        .close-popup {
+            padding: 10px 30px;
+            background: #ff6b9d;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .flowers-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            animation: float-up 6s infinite ease-in;
+            opacity: 0;
+        }
+
+        .flower {
+            position: absolute;
+            font-size: 25px;
+            animation: float-diagonal 8s infinite ease-in-out;
+            opacity: 0;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            10%, 30% {
+                transform: scale(0.9);
+            }
+            20%, 40% {
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes float-diagonal {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.9;
+            }
+            50% {
+                opacity: 0.9;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translate(100px, -100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Floating hearts background -->
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <!-- Floating blue flowers background -->
+    <div class="flowers-container" id="flowersContainer"></div>
+
+    <!-- Overlay for popup -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Popup message -->
+    <div class="popup" id="popup">
+        <h2>You're Amazing! 💕</h2>
+        <p>Thank you for being the best part of my life!</p>
+        <button class="close-popup" onclick="closePopup()">Close</button>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="music.mp4" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+        <header>
+            <h3>Happy Valentine's Day! ❤️</h3>
+            <p class="subtitle">Celebrating love and happiness</p>
+        </header>
+
+        <div class="main-heart">
+            <div class="big-heart" onclick="showPopup()">❤️</div>
+        </div>
+
+        <button class="music-btn" onclick="toggleMusic()">Play / Pause Music</button>
+
+        <div class="message-card">
+            <p id="typewriter"></p>
+        </div>
+
+        <footer>
+            <p>wala ko naka hatag flowers kay wa koy money XD. sorry twin.</p>
+            <p>© 2026 Valentine's Day Special HEHE</p>
+        </footer>
+    </div>
+
+    <script>
+        // ================= MUSIC =================
+        const music = document.getElementById("bgMusic");
+
+        function toggleMusic() {
+            if (music.paused) {
+                fadeInMusic();
+            } else {
+                music.pause();
+            }
+        }
+
+        function fadeInMusic() {
+            music.volume = 0;
+            music.play();
+            let volume = 0;
+            let fade = setInterval(() => {
+                if (volume < 0.5) {
+                    volume += 0.05;
+                    music.volume = volume;
+                } else {
+                    clearInterval(fade);
+                }
+            }, 200);
+        }
+
+        // ================= TYPEWRITER (AUTO START) =================
+        const fullMessage = `Hi! HAPPY VALENTINE'S DAY!
+
+I just want to say how much you mean to me.
+Kabalo na siguro ka na special kaau ka sa ako kay since G11 nagka crush ko nimo, and that feeling has only grown stronger over time.
+Kabalo naman siguro ka nga nagka crush ko nimo 🤷 HEHE. And My Bad kay di na kaau ko nag pansin nimo atoh kay nagka gain man kug feelings nimo gud.
+And I was scared to tell you because I didn't want to risk our friendship.
+
+Pero katong sa January 2 kay ning confess ko nimo through chat and shared FB reel and I just couldn't keep it to myself anymore. I had to tell you how I felt, even if it meant risking everything.
+I'm really sorry if that made things awkward between us. I value our friendship so much, and the last thing I wanted was to make you uncomfortable.
+But I also couldn't keep pretending that I didn't have feelings for you. It was eating me up inside, and I just had to be honest with you.
+
+And I know that you might not feel the same way, and that's okay. I just wanted to be honest with you and let you know how I felt. I hope we can still be friends, no matter what happens. right twin?
+HEHE. I just want you to be happy, whether that's with me or with someone else. You deserve all the happiness in the world, and I'll always be here for you, no matter what.
+Unta nga dili na ma awkward between us, Mo istorya² nako nimo HAHAHHAHAHA i hope wala nay awkward interactions, wala man koy ma topic gud HAHAHHAAHAHHAHAHA.
+
+I just want us to be able to talk and laugh like we always have, without any weirdness or tension.
+I hope we can continue to be friends for a long time to come. Even when we graduate sa G12, I hope we can still keep in touch and support each other through whatever life throws at us.
+Happy Valentine's Day again! I hope it's a day filled with love, happiness, and all the things that make you smile. You deserve it all, twin! ❤️`;
+
+        let index = 0;
+
+        function typeWriter() {
+            if (index < fullMessage.length) {
+                document.getElementById("typewriter").innerHTML +=
+                    fullMessage.charAt(index) === "\n" ? "<br>" : fullMessage.charAt(index);
+                index++;
+                setTimeout(typeWriter, 20);
+            }
+        }
+
+        window.onload = typeWriter;
+
+        // ================= ANIMATIONS =================
+        // Floating hearts animation
+        function createHeart() {
+            const heartsContainer = document.getElementById('heartsContainer');
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            heartsContainer.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+
+        // Create hearts periodically
+        setInterval(createHeart, 300);
+
+        // Floating blue flowers animation
+        function createFlower() {
+            const flowersContainer = document.getElementById('flowersContainer');
+            const flower = document.createElement('div');
+            flower.className = 'flower';
+
+            // Blue flower emojis - expanded selection
+            const blueFlowers = ['🌸', '💙', '🦋', '💎', '🌺', '🌼', '🪻', '💠', '🔷', '💙'];
+            flower.innerHTML = blueFlowers[Math.floor(Math.random() * blueFlowers.length)];
+
+            flower.style.left = Math.random() * 100 + '%';
+            flower.style.animationDuration = (Math.random() * 4 + 6) + 's';
+            flower.style.fontSize = (Math.random() * 20 + 18) + 'px';
+            flowersContainer.appendChild(flower);
+
+            setTimeout(() => {
+                flower.remove();
+            }, 8000);
+        }
+
+        // Create MORE flowers periodically (increased frequency)
+        setInterval(createFlower, 200);
+
+        // Create an initial burst of flowers when page loads
+        for (let i = 0; i < 15; i++) {
+            setTimeout(createFlower, i * 150);
+        }
+
+        // Popup functions
+        function showPopup() {
+            document.getElementById('popup').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+
+            // Create burst of hearts
+            for (let i = 0; i < 10; i++) {
+                setTimeout(createHeart, i * 50);
+            }
+        }
+
+        function closePopup() {
+            document.getElementById('popup').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
+
+        // Close popup when clicking overlay
+        document.getElementById('overlay').addEventListener('click', closePopup);
+
+        // Parallax effect for hearts on scroll
+        let lastScrollY = window.scrollY;
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const hearts = document.querySelectorAll('.heart');
+            hearts.forEach(heart => {
+                const speed = parseFloat(heart.style.fontSize) / 20;
+                const currentTop = parseFloat(heart.style.top) || 0;
+                heart.style.top = (currentTop + (scrollY - lastScrollY) * speed * 0.1) + 'px';
+            });
+            lastScrollY = scrollY;
+        });
+    </script>
+
+</body>
+
+</html>
